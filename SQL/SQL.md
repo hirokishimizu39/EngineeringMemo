@@ -1,0 +1,40 @@
+🧑‍💻SQL(Strucured Query Language)
+    - クエリ（DBに送る命令）
+    - データ型
+        - テキスト、日付は ””　が必要
+        - 数値
+    - select
+    - from
+    - where
+    - not
+    - 比較演算子
+    - like
+    - is null, is not null（ ’=‘ じゃなくて  ‘is’ を使用するのが注意点）
+    - and, or
+    - order by limit
+    - 上記をすべて使用したSQL
+        - select * from purchases where not id = 1 and name like “%プリン% and price is not null order by price limit3”
+    - distinct（カラム名）
+        - 重複データを省く
+    - 四則演算
+    - 集計関数(sum, avg,)
+    - count関数
+    - max, min関数
+    - group by
+    - having
+    - サブクエリ(副問い合わせ)
+    - as
+        - goals(カラム名) as “得点数”
+    - join on players.country_id = countries.id
+    - join と left joinの違い
+        - join 
+            - joinする両方のテーブルに存在する行だけを取り出す
+        - left join 
+            - leftのテーブルを基準にしてjoinする 。左のテーブルに存在していて、右のテーブルに存在しない行はnull
+    - select, insert into, update, delete
+        - select id, name from students;
+        - insert into students(id, name, course) values(6, “hiroki”, “SQL”);
+        - update students set name = “shimizu”, course = “GO” where id = 7;
+        - delete from students where id = 7;
+    - auto increment
+        - idなどに自動でデータを割り当ててくれる機能

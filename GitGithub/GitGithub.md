@@ -1,0 +1,117 @@
+🧑‍💻Git & Github
+- git diff —staged
+    - ステージングにあげた差分が見れる
+- git restore —staged ファイル名
+    - ステージングにあげた差分を取り除ける
+- git restore —source=HEAD^ .
+    - commit の取り消し
+- git branch -D feature2
+- git stash -am “worldを追加。（一時保存）”
+    - -aは追跡していないファイルも全て取り込むオプションで、-mはstashする際のメッセージをつけるオプションです。
+- git stash list
+    - stashしたものをリストで見れる
+- git stash apply 0
+    - git stash listを叩いた際に表示されるstash@{0}の0にあたります
+- git stash drop 0
+    - git stash listを叩いた際に表示されるstash@{0}の0にあたります
+- Merge
+    - First-forward merge
+    - 3Way merge
+        - git merge —no-ff feature1
+- git log —oneline —graph
+- git rebase （基本は、同じブランチで他の人が作業している場合使用しない。）（まだ理解度低い。）
+    - 文字通り、ブランチの分岐点をre-baseする。rebaseは、branchでの作業分をまとまって綺麗に並べることができるが、commitを作り替えてしまうので、共同開発で同じbranchにて作業をしている場合は、branchの不整合が起きてしまう。なので、そういった場合は使用しない方が良い。自分のみ対象のbranchで作業している場合は、rebaseすると良い。
+- git remote add origin https://github.com/hirokishimizu39/repository_name.git
+    - originという名前でgithubリポ氏とりにアップしたり取得できるようになる
+- git rm ファイル名
+- git rm -r ディレクトリ名
+- git rm —coached ファイル名
+    - gitにあげたファイルのみ削除。ワークツリー上では残して、リポジトリ上のみ削除したい時
+- git restoreでできる（git checkout も　git resetも）
+    - ワークツリーのファイルへの変更を取り消す（ステージの状態をワークツリーに持ってくることによって、ファイルの変更を取り消している）
+        - git checkout — ファイル名
+        - git checkout — ディレクトリ名
+        - git checkout — .
+    - ステージングした変更を取り消す（最新のコミットの状態をステージングに持ってくることによって、変更を取り消している）
+        - git reset HEAD ファイル名
+        - git reset HEAD ディレクトリ名
+        - git reset HEAD .
+- HEAD　＝　今自分がいるブランチの最新のコミットを表す
+- 直前のコミットをやり直す
+    - ファイルを変更する→git add .　する
+    - git commit —amend を実行する　→ 直前のコミットがgit add .　した内容に修正できる
+- git remote -v
+    - リモートの情報を確認
+- git remote show origin
+    - リモートの情報を詳しく知れる
+- git remote rename 古い名前 新しい名前
+- git remote rm 名前
+- リモートリポジトリを新しく追加
+    - git remote add ファイル名
+    - git remote add backup https://github.com/hirokishimizu39/git_tutorial_backup.git
+- git fetch リモート名
+    - リモートの情報をローカルリポジトリに持ってくる
+    - ローカルリポジトリに持ってきた情報はmergeすることでワークツリー上に反映できる
+- git pull リモート名 ブランチ名
+    - git fetch + git merge
+- mergeには3種類ある
+    - Fast Forward merge
+    - Auto merge
+    - Conflict
+- git merge ブランチ名
+- git merge origin/main
+- git branch -m ブランチ名
+    - ブランチの名前を変更する（move）
+- git branch -d ブランチ名
+    - ブランチを削除する
+- git branch -D ブランチ名
+    - mainに変更が登録されていないブランチはmainにまだ反映されてないよという警告をしてくれるがそれを無視してdeleteするコマンド
+- GitHub Flow
+    - mainブランチから新しく開発用のブランチを切って、その開発ブランチのプルリクエストを送るという開発フロー。
+    - mainブランチは常にデプロイできる状態に保つ
+    - 新開発はmainブランチから新しいブランチを作成してスタート
+    - 作成した新しいブランチ上で作業しコミットする
+    - 定期的にpushする
+    - mainにマージするためにプルリクエストを使う
+    - 必ずレビューを受ける
+    - mainブランチにマージしたらすぐにデプロイする（テストとデプロイは自動化）
+- githubにプッシュしたコミットをリベースするのは絶対NG
+    - git push -fは絶対使わない。
+    - git rebaseはfast forwardでコミットを直線にして綺麗にできるが、githubにコミットした内容はrebaseはNG
+- ■マージかリベースどっち
+    - マージ
+        - コンフリクトの解決が簡単
+        - マージコミットがたくさんあると履歴が複雑化する
+        - 作業の履歴を残したい場合はマージを使用
+    - リベース
+        - 履歴を綺麗に保つことができる
+        - コンフリクトの解決が面倒（コミットそれぞれに解消が必要）
+    - 結論：
+        - プシュしていないローカルの変更にはリベースを使用
+        - 変更にはリベースを使い、プッシュした後はマージを使う
+        - コンフリクトしそうならマージを使う
+- ■pullにはマージ型とリベース型がある
+    - pullの マージ型
+        - 通常のgit pull origin main
+        - （git fetch + git merge）
+        - マージコミットが残るからマージした記録を残したいときに使用
+    - pull のリベース型
+        - git pull —rebase origin main
+        - （git fetch + git rebases）
+- リベースで履歴を書き換える
+    - 一つ前のコミットを変更する 
+        - git commit —amend
+- git rebase -i HEAD~3
+    - pick fsdfasdf （← HEAD~3）
+    - pick fdaij　　（← HEAD~2）
+    - pick kjasajl　（← HEAD~1）
+- git tag -a 20241106 -m “メッセージ”
+- タグをリモートリポジトリに送信
+    - git push リモート名 タグ名
+    - git push origin 20241106
+- git stash (stash＝隠す)
+- git stash apply stash@{1}
+- git stash apply —index
+- git stash drop stash@{2}
+- git stash clear
+    - 全て削除

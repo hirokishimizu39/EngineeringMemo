@@ -1,0 +1,176 @@
+🧑‍💻Ruby on rails
+    - webアプリケーションを作成するためのフレームワーク(MVC model controller view)
+    - rails new 作りたいappの名前
+    - rails server
+        - localhost:3000にアクセスできる
+    - rails generate controller home top
+        - 自動でhomeフォルダとtop.html.erbが作成される
+        - 自動でhome_controller.rbというコントローラーファイルが作成され、ファイルの中にtopメソッド（topアクション）が追加される
+        - localhost:3000/home/topにアクセスできる
+    - routing
+        - 送信されたurlに対して、どのコントローラーのどのアクションで処理するかを決める対応表
+            - get “/“ => “home#top”
+        - ルーティング(交通整理)→コントローラ(司令塔)ー→ビュー(画面表示)
+    - 埋め込み構文
+        - ruby
+            - <h1><%= @title %></h1>
+        - php
+            - <h1><?php echo $title; ?><h1>
+    - rails g model Post content:text
+    - rails db:migrate
+    - rails console
+        - Post.new(content: “Hello world”)
+        - post.save
+        - Post.all
+        - post.content
+    - <%= yield %>
+        - 共通部分をapplication.erbなどに書いておき、一部をyieldで呼びだす
+    - <%= link_to(“About”, “/about”) %>
+        - 右記のaタグと同じ意味<a href=“/about”>About</a>
+    - idカラム
+        - auto incrementが適用されており、contentを追加すると自動的にidが付与される
+    - created_atカラム, updated_atカラム
+        - DBに追加された時刻が自動で追加される
+        - updated_atカラムはデータ更新時にも時刻が更新される
+    - find_byメソッド
+        - モデル名.find_by(カラム名: 値)
+        - (例)Post.find(id: 3)、DBからidが3のデータをを取得する
+    - 投稿詳細ページへのrouting
+        - 以下をひとまとめに、get “posts/:id” => “posts#show”と書くことができる
+        - get “posts/1” => “posts#show”
+        - get “posts/2” => “posts#show”
+        - get “posts/3” => “posts#show”
+    - URLからidを取得
+        - 前述したroutingの /posts/1にアクセスした際に以下のように記述することでURLからidの値を取得できる
+        - @id = params[:id]
+    - URLから投稿詳細の取得
+        - @post = Post.find_by(id: params[:id])
+    - 詳細画面へのリンクを作成
+        - <% @post.each do |post| %>
+            - <%= link_to(post.content, “/posts/#{post.id}”) %>
+        - <% end %>
+    - 新規投稿ページの作成
+        - get “posts/new” => “posts#new”
+    - 入力フォームの作成
+        - <textarea></textarea>
+        - <input type=“submit” value=“投稿”>
+    - 投稿を保存する
+        - 投稿内容を受け取るcreateアクションのルーティング
+            - post “pots/create” => “posts#create”
+        - フォーム送信先の指定
+            - <%= form_tag(“/posts/create”) do %>
+                - <textarea></textarea>
+                - <input type=“submit” value=“投稿”>
+            - <% end %>
+        - createアクションの記述
+            - def create
+                - redirect_to(“/posts/index”)
+            - end
+        - フォームに入力された内容をcreateアクションに伝える
+            - <%= form_tag(“/posts/create”) do %>
+                - <textarea name=“content”></textarea>
+                - <input type=“submit” value=“投稿”>
+            - <% end %>
+        - create アクションでcontentを受け取る
+            - def create
+                - @post = Post.new(content: params[:content]
+                - @post.save
+                - redirect_to(“/posts/index”)
+            - end
+        - paramsの使い方は主に二つある。1. ルーティングのURLからの値を取得すること、2. フォームの入力内容を受け取ること
+            - 1. get “posts/:id” => “posts/index”
+                - params[:id]で受け取る
+            - 2. <textarea name=“content”></textarea>
+                - params[:content]で受け取る
+        - 投稿の並び替え
+            - @posts = Post.all.order(created_at::desc)
+    - 投稿を編集する
+        - @post = Post.find_by(id: params[:id])
+    - 削除機能
+        - @post.destroy
+    - getとpost
+        - get: データベースを変更しないアクション
+            - link_to(“編集”, “/posts/#{@post.id}/edit”)
+        - post: データベースを変更するアクション、sessionの値を変更する場合
+            - link_to(“削除”, “/posts/#{@post.id}/destroy”, “{method: “post”}
+            - 
+    - バリデーション
+        - validates :content, {presence: true}
+        - validates :content, {presence: true, length: {maximum: 140}}
+    - redirect_toとrenderの違い
+        - redirect_to(“/posts/index”)は別のアクションを経由する
+        - render(“posts/edit”)は別のアクションを経由せず、直接viewファイルを表示することができる。なのでurlも/posts/editではなく、posts/edit
+    - Railsでは@post.errors.full_messagesの中にエラー内容が配列で入る
+    - フラッシュ(flash)
+        - ページに一度だけ表示される
+        - flash[:notice]
+    - ※routingの順番について
+        - get “posts/:id” => “posts/show”
+        - get “posts/edit” => “posts/edit”
+    - rails g migration ファイル名
+    - add_column :テーブル名, :カラム名, :データ型
+    - 画像ファイルを選択するボタン
+        - <input name=“image” type=“file”>
+    - 画像の送信
+        - <%= form_tag(“…..”, {multipart: true}) do %>
+    - ファイルの作成
+        - File.write(“ファイルの場所”, ファイルの中身)
+    - 画像の保存
+        - File.binwrite(“ファイルの場所”, ファイルの中身)
+    - ログイン機能
+    - ログアウト機能
+    - ログインしているユーザー名の表示
+    - ログインしているかどうかで表示内容を変える、アクセス制限する
+    - ログインしているユーザーの情報のみ編集できるようにする
+        - <input type=“password”>
+            - typeにpasswordを指定すると入力したパスワードが伏字となるフォームになる
+        - デフォルトでlink_toはget, form_tagはpostにルーティングを探す
+            - get “login” => “users/#login_form”
+                - <%= link_to(“ログイン”, “/login” %>
+            - post “login” => “users/#login”
+                - <%= form_tag(“/login”) do %>
+    - session[:user_id] = @user.id 
+        - なぜ変数名が@session[:user_id]じゃないのか。
+        - @をつけるとインスタンス変数、つけないとローカル変数らしいけど、違いがイマイチわからない。
+    - ログインしている状態＝sessionでuser_idを保持している
+    - ログアウトしている状態＝session[:user_id] == nil
+    - before_action :current_user
+    - before_action :forbid_login_user, {only: [:top]}
+    - 投稿とユーザーを紐付ける
+        - postsテーブルにuser_idカラムを追加し、投稿にどのuserが投稿したかというの情報を持たせる
+        - 投稿作成時に、user_idを入れて保存するようにする。投稿するuserはもちろん現在ログインしているユーザーなので@current_user.idを代入
+            - @post = Post.new(content: params[:content], user_id: @current_user.id)
+        - 投稿にユーザー情報を表示する
+            - ユーザー名やユーザー画像を持っているのはusersテーブルだからそこからpostに紐づいたuser情報を引っ張ってくる
+                - @user = User.find_by(id: @post.user_id)
+        - 投稿に紐づくuserの情報、userに紐づく投稿の情報はよく使うので、メソッドにしておく
+            - def user
+                - return User.find_by(id: self.user_id)
+            - end
+            - def posts
+                - return Post.where(user_id: self.id)
+            - end
+        - post.find_byは一つだけ取得、post.whereは合致するすべてのデータを取得
+    - いいね機能をつくろう！！
+        - likesテーブルの作成。
+            - いいね。が持っている情報は、1. 「誰がいいねしたか」と2. 「どの投稿にいいねがされたか」。この二つが必須なのでvalidationも記述する。
+            - rails g model Like user_id:integer post_id:integer
+            - validates :user_id, {presence: true}
+            - validates :post_id, {presence: true}
+        - いいねした投稿かどうか表示しよう！
+            - いいねしている＝Likeテーブルのlikeインスタンスが持っている情報が1. user_idが@current_user.id、2. post_id: @post.id 
+            - Like.find_by(user_id: @current_user.id, post_id: @post.id)
+        - いいねボタンを作ろう！
+            - post “like/:post_id/create” => “likes#create”
+            - def create
+                - @like = Like.new(user_id: @current_user.id, post_id: params[:post_id])
+                - @like.save
+                - redirect_to(“/posts/#{params[:post_id]}”)
+        - いいねしていたら、いいねと表示。していなければ、いいねするためのcreateアクションへの導線
+            - <% if Like.find_by(user_id: @current_user.id, post_id: @post.id) %>
+                - いいね！済み
+            - <% else %>
+                - <%= link_to(“いいね！”, “/likes/#{@post.id}/create”, {method: “post”})
+            - <% end %>
+        - いいねボタンをアイコンにしよう！
+            - link rel free stylesheetFontAwsomeの読み込み

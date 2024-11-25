@@ -1,0 +1,45 @@
+🧑‍💻Node.js
+- 本来クライアント側の言語であるJSをサーバーサイド側で動かすための仕組み
+- Express
+    - Node.jsのフレームワーク
+    - nom install express
+    - npm(= Node Package Manager)
+    - const express = require('express');
+    - const app = express();
+- cssの使用
+    - app.use(express.static('public'));
+- app.get('/', (req, res) => {
+-   res.render('top.ejs');
+- });
+- <% items.forEach((item) => { %>
+-   <li>
+-     <span class="id-column"><%= item.id %></span>
+-     <span class="name-column"><%= item.name %></span>
+-   </li>
+- <% }); %>
+- DBの使用
+    - const mysql = require('mysql');
+    - const connection = mysql.createConnection({
+    -   host: 'localhost',
+    -   user: 'progate',
+    -   password: 'password',
+    -   database: 'list_app'
+    - });
+    - app.use(express.urlencoded({extended: false}));
+    - app.get('/index', (req, res) => {
+    -   connection.query(
+    -     'SELECT * FROM items',
+    -     (error, results) => {
+    -       res.render('index.ejs', {items: results});
+    -     }
+    -   );
+    - });
+    - app.post('/create', (req, res) => {
+    -   connection.query(
+    -     'INSERT INTO items (name) VALUES (?)',
+    -     [req.body.itemName],
+    -     (error, results) => {
+    -       res.redirect('/index')      
+    -     }
+    -   );
+    - });
