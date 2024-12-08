@@ -43,3 +43,7 @@
 - promotionアプリ
   - プロモーションコードの生成
   - 割引計算
+
+
+これいつ使うんや。
+  context_object_name
