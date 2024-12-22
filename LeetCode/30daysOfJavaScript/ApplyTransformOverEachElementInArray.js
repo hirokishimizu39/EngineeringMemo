@@ -32,11 +32,21 @@
 
 // ---------------------------------- 出力は、配列 arr の各要素に fn を適用した新しい配列。の実現方法が腑に落ちていない。------------------------------------------
 
-var map = function(arr, fn) {
+let map = function(arr, fn) {
+    const result = []
 
     for (let i = 0; i < arr.length; i++) {
-        fn
+        result.push(fn(arr[i], i));
     }
 
-    return  arr;
-}
+    return result;
+};
+
+
+// test case
+const arr = [1,2,3]
+const plusOne = (n) => n + 1;
+console.log(map(arr, plusOne))
+
+const plusI = (n, i) => n + i;
+console.log(map(arr, plusI))
