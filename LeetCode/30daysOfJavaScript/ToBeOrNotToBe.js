@@ -55,22 +55,36 @@ var expect = function(val) {
 
 
 // Example 1
+const equllWithTobe = () => expect(5).toBe(5);
 try {
-  console.log(expect(5).toBe(5)); // true
+  console.log(equllWithTobe()); // true
 } catch (e) {
   console.error(e.message); // 実行されない
 }
 
 // Example 2
+const notEqullWithToBe = () => expect(5).toBe(null);
 try {
-  console.log(expect(5).toBe(null)); // "Not Equal" エラーがスローされる
+  console.log(notEqullWithToBe()); // "Not Equal" エラーがスローされる
 } catch (e) {
   console.error(e.message); // "Not Equal"
 }
 
 // Example 3
+const notEqullWithNotToBe = () => expect(5).notToBe(null);
 try {
-  console.log(expect(5).notToBe(null)); // true
+  console.log(notEqullWithNotToBe()); // true
 } catch (e) {
   console.error(e.message); // 実行されない
 }
+
+
+// 関数の書き方の違い
+// 関数宣言(function Declaration)とオブジェクトのメソッド
+
+// - function Declaration
+//   - グローバル関数
+//   - 名前付き関数
+
+// - method of object
+//   - ローカル関数（オブジェクトに依存する関数）
