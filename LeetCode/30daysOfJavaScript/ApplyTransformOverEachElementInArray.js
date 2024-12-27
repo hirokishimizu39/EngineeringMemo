@@ -50,3 +50,6 @@ console.log(map(arr, plusOne))
 
 const plusI = (n, i) => n + i;
 console.log(map(arr, plusI))
+
+const returnConst = (n) => 42;
+console.log(map(arr, returnConst))
