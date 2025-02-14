@@ -1,0 +1,70 @@
+body {
+    background-color: #f0f0f0;
+    color: #666666;
+}
+
+input {
+    border-radius: 8px;
+    border: none;
+    padding: 6px;
+    padding: 6px 16px;
+}
+
+button {
+    border-radius: 8px;
+    border: none;
+    padding: 6px 16px;
+    margin: 0 2px;
+}
+
+button:hover {
+    background-color: green;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.input-area {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    background-color: hwb(248 4% 6% / 0.377);
+    width: 400px;
+    height: 30px;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.incomplete-area {
+    background-color: white;
+    width: 400px;
+    min-height: 200px;
+    padding: 8px;
+    margin: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.complete-area {
+    background-color: lightgray;
+    width: 400px;
+    min-height: 200px;
+    padding: 8px;
+    margin: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.list-row {
+    display: flex;
+    align-items: center;
+}
+
+.todo-item {
+    margin: 6px;
+}
