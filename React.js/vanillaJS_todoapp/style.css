@@ -25,7 +25,6 @@ button:hover {
 
 .input-area {
     display: flex;
-    justify-content: center;
     margin-top: 8px;
     background-color: hwb(248 4% 6% / 0.377);
     width: 400px;
